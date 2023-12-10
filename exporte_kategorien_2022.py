@@ -18,9 +18,7 @@ def make_autopct(values):
     
 def plot(ax, sizes):
 	ax.pie(sizes, labels=labels, autopct=make_autopct(sizes), explode=(0.1, 0, 0, 0), shadow=True, startangle=90,
-	colors=[
-        'cornflowerblue', 'gold', 'tomato', 'green', 
-        "#77BFE2"])
+	colors=['cornflowerblue', 'gold', 'tomato', 'green'])
 
 fig, ax = plt.subplots()
 plt.title(label="Exporte Indien 2022")

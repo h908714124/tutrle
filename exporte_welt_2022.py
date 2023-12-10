@@ -28,7 +28,7 @@ plt.bar(laender, werte, color =['maroon', 'maroon', 'blue', 'maroon','maroon','m
         width = 0.4)
  
 #plt.xlabel("Land")
-plt.ylabel("Exorte Gesamt (Billionen USD)")
+plt.ylabel("Exporte Gesamt (Billionen USD)")
 plt.title("Exporte Gesamt, Waren und Dienstleistungen, 2022")
 #plt.show()
 plt.savefig('exporte_welt_2022.png')
