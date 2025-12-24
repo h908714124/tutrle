@@ -19,7 +19,7 @@ class MainWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         st_banner = Gtk.Label(label = BANNER.rstrip())
-        box = Gtk.Box(spacing=6)
+        box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=6)
         self.set_child(box)
 
         grid = Gtk.Grid()
@@ -30,7 +30,6 @@ class MainWindow(Gtk.ApplicationWindow):
         box.append(st_banner)
         box.append(st_label1)
         box.append(st_label2)
-        self_props.valign
 
         keycont = Gtk.EventControllerKey()
         keycont.connect("key-pressed", self.on_key_press)
@@ -57,8 +56,8 @@ class MyApplication(Gtk.Application):
     def do_activate(self):
         win = MainWindow(application=app)
         win.set_title("Hello World")
-        win.set_default_size(460, 320)
-        win.show()
+        win.set_default_size(460, -1)
+        win.set_visible(True)
 
 app = MyApplication()
 app.run()
