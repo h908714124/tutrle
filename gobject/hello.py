@@ -26,27 +26,23 @@ class MainWindow(Gtk.ApplicationWindow):
         st_label1 = Gtk.Label(label = "Rettungsschlüssel")
         st_label2 = Gtk.Label(label = "Rettungsschlüssel wiederholen")
         st_banner = Gtk.Label(label = BANNER.rstrip())
+        st_password = Gtk.Entry()
+        st_confirm = Gtk.Entry()
+
+        grid.attach(st_label1, 0, 0, 1, 1)
+        grid.attach(st_password, 1, 0, 1, 1)
+        grid.attach(st_label2, 0, 1, 1, 1)
+        grid.attach(st_confirm, 1, 1, 1, 1)
 
         box.append(st_banner)
-        box.append(st_label1)
-        box.append(st_label2)
+
+        box.append(grid)
+
+        #grid.attach_next_to(st_password, st_label1, Gtk.PositionType.RIGHT, 1, 1)
 
         keycont = Gtk.EventControllerKey()
         keycont.connect("key-pressed", self.on_key_press)
         self.add_controller(keycont)
-
-class GridWindow(Gtk.ApplicationWindow):
-    def __init__(self, **kargs):
-        super().__init__(**kargs, title="Grid Example")
-
-        grid = Gtk.Grid()
-        st_label1 = Gtk.Label(label = "Rettungsschlüssel")
-        st_label2 = Gtk.Label(label = "Rettungsschlüssel wiederholen")
-        st_banner = Gtk.Label(label = BANNER.rstrip())
-
-        grid.attach(st_label1, 0, 0, 0, 0)
-        grid.attach(st_label2, 0, 0, 1, 1)
-        self.set_child(grid)
 
 class MyApplication(Gtk.Application):
     def __init__(self):
