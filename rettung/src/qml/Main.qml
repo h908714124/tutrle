@@ -7,59 +7,73 @@ import org.jbock.rettung.controller 1.0
 Kirigami.ApplicationWindow {
     id: root
 
-    title: "Simple Markdown viewer"
+    title: "add luks2 passphrase"
 
-    minimumWidth: Kirigami.Units.gridUnit * 20
-    minimumHeight: Kirigami.Units.gridUnit * 20
-    width: minimumWidth
-    height: minimumHeight
+    width: Kirigami.Units.gridUnit * 20
 
     pageStack.initialPage: Kirigami.Page {
-        title: "Markdown Viewer"
+        title: "Tool to add a luks2 passphrase"
 
         RettungController {
             id: controller
+            pwField: pwField.text
+            confirmField: confirmField.text
         }
 
         ColumnLayout {
+
             anchors {
                 top: parent.top
                 left: parent.left
                 right: parent.right
             }
-            Controls.TextArea {
-                id: sourceArea
-                placeholderText: "Write some Markdown code here"
-                wrapMode: Text.WrapAnywhere
+
+            TextEdit {
                 Layout.fillWidth: true
-                Layout.minimumHeight: Kirigami.Units.gridUnit * 5
-            }
-
-            RowLayout {
-                Layout.fillWidth: true
-
-                Controls.Button {
-                    text: "Format"
-                    onClicked: controller.synchro_start()
-                }
-
-                Controls.Button {
-                    text: "Clear"
-                }
-            }
-
-            Text {
-                id: formattedText
-
-                text: controller.sourceText
-                textFormat: Text.RichText
                 wrapMode: Text.WordWrap
+                text: "You can set a new luks2 passphrase here. " + 
+                    "If you already had this passphrase, the tool will do nothing and tell you about it."
+            }
 
+            GridLayout {
+                columns: 2
+
+                TextInput {
+                    text: "passphrase:"
+                }
+
+                Controls.TextField {
+                    id: pwField
+                    Layout.fillWidth: true
+                    echoMode: TextInput.Password
+                }
+
+                TextInput {
+                    text: "confirm:"
+                }
+
+                Controls.TextField {
+                    id: confirmField
+                    Layout.fillWidth: true
+                    echoMode: TextInput.Password
+                }
+            }
+
+            Controls.Button {
                 Layout.fillWidth: true
-                Layout.minimumHeight: Kirigami.Units.gridUnit * 5
+                text: "OK"
+                onClicked: controller.onPbOkClicked()
+                enabled: controller.state == "unlocked"
+            }
+
+            Controls.TextArea {
+                wrapMode: Text.WordWrap
+                text: controller.messageText
+                readOnly: true
+                Layout.fillWidth: true
+                Layout.minimumHeight: Kirigami.Units.gridUnit * 8
             }
         }
     }
-
 }
 
