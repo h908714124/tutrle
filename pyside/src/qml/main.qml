@@ -2,11 +2,12 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as Controls
 import org.kde.kirigami as Kirigami
+import org.jbock.messagecontroller 1.0
 
 Kirigami.ApplicationWindow {
     id: root
 
-    title: qsTr("Simple Markdown viewer")
+    title: "Simple Markdown viewer"
 
     minimumWidth: Kirigami.Units.gridUnit * 20
     minimumHeight: Kirigami.Units.gridUnit * 20
@@ -19,7 +20,12 @@ Kirigami.ApplicationWindow {
         id: initPage
 
         Kirigami.Page {
-            title: qsTr("Markdown Viewer")
+            title: "Markdown Viewer"
+
+            MessageController {
+                id: messagecontroller
+                sourceText: sourceArea.text
+            }
 
             ColumnLayout {
                 anchors {
@@ -29,8 +35,7 @@ Kirigami.ApplicationWindow {
                 }
                 Controls.TextArea {
                     id: sourceArea
-
-                    placeholderText: qsTr("Write some Markdown code here")
+                    placeholderText: "Write some Markdown code here"
                     wrapMode: Text.WrapAnywhere
                     Layout.fillWidth: true
                     Layout.minimumHeight: Kirigami.Units.gridUnit * 5 
@@ -40,13 +45,12 @@ Kirigami.ApplicationWindow {
                     Layout.fillWidth: true
 
                     Controls.Button {
-                        text: qsTr("Format")
-
-                        onClicked: formattedText.text = sourceArea.text
+                        text: "Format"
+                        onClicked: formattedText.text = messagecontroller.mdFormat()
                     }
 
                     Controls.Button {
-                        text: qsTr("Clear")
+                        text: "Clear"
 
                         onClicked: {
                             sourceArea.text = ""
@@ -60,7 +64,6 @@ Kirigami.ApplicationWindow {
 
                     textFormat: Text.RichText
                     wrapMode: Text.WordWrap
-                    text: sourceArea.text
 
                     Layout.fillWidth: true
                     Layout.minimumHeight: Kirigami.Units.gridUnit * 5
