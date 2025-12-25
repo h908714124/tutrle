@@ -1,0 +1,7 @@
+[Desktop Entry]
+Exec=rettung
+Icon=lock
+Name=Rettung
+StartupNotify=true
+Terminal=false
+Type=Application

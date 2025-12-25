@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "rettung"
+version = "0.1"
+authors = [
+    {name = "jbock", email = "jbock-java@gmx.de"}
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: End Users/Desktop",
+    "Topic :: Utilities",
+    "Programming Language :: Python",
+    "Operating System :: POSIX :: Linux",
+]
+
+[project.scripts]
+rettung = "rettung.rettung_app:main"
+
+[tool.setuptools]
+packages = ["rettung"]
+package-dir = {rettung = "src"}
+include-package-data = true
+
+[tool.setuptools.data-files]
+"share/applications" = ["org.jbock.rettung.desktop"]
