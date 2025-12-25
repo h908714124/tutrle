@@ -3,10 +3,12 @@
 import os
 import sys
 import signal
+
 from PySide6.QtGui import QGuiApplication
 from PySide6.QtCore import QUrl
 from PySide6.QtQml import QQmlApplicationEngine
-from rettung.message_controller import MessageController # noqa: F401
+
+from rettung.rettung_controller import RettungController # noqa: F401
 
 def main():
     app = QGuiApplication(sys.argv)
@@ -16,8 +18,7 @@ def main():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
 
     base_path = os.path.abspath(os.path.dirname(__file__))
-    url = QUrl(f"file://{base_path}/qml/Main.qml")
-    engine.load(url)
+    engine.load(QUrl(f"file://{base_path}/qml/Main.qml"))
 
     if len(engine.rootObjects()) == 0:
         quit()
