@@ -26,9 +26,12 @@ class RettungController(QObject):
         self._text = pw
         self.signal_text_changed.emit()
 
+    def get_bab(self):
+        return "bab " * 100
+
     @Slot()
     def onPbOkClicked(self):
-        threading.Thread(target = lambda : self.set_password("bab")).start()
+        threading.Thread(target = lambda : self.set_password(self.get_bab())).start()
 
     @Property(str, notify=signal_text_changed)
     def messageText(self):

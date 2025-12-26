@@ -10,8 +10,10 @@ Kirigami.ApplicationWindow {
     title: "add luks2 passphrase"
 
     width: Kirigami.Units.gridUnit * 20
+    height: Kirigami.Units.gridUnit * 22
 
-    pageStack.initialPage: Kirigami.Page {
+    pageStack.initialPage: Kirigami.ScrollablePage {
+        id: mainPage
         title: "Tool to add a luks2 passphrase"
 
         RettungController {
@@ -62,8 +64,10 @@ Kirigami.ApplicationWindow {
             Controls.Button {
                 Layout.fillWidth: true
                 text: "OK"
-                onClicked: controller.onPbOkClicked()
-                enabled: controller.state == "unlocked"
+                onClicked: {
+                    controller.onPbOkClicked()
+                }
+                enabled: controller.state !== "locked"
             }
 
             Controls.TextArea {
