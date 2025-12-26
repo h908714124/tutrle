@@ -10,7 +10,7 @@ Kirigami.ApplicationWindow {
     title: "add luks2 passphrase"
 
     width: Kirigami.Units.gridUnit * 20
-    height: Kirigami.Units.gridUnit * 22
+    height: Kirigami.Units.gridUnit * 30
 
     pageStack.initialPage: Kirigami.ScrollablePage {
         id: mainPage
@@ -76,6 +76,20 @@ Kirigami.ApplicationWindow {
                 readOnly: true
                 Layout.fillWidth: true
                 Layout.minimumHeight: Kirigami.Units.gridUnit * 8
+            }
+
+            ListView {
+
+                orientation: ListView.Vertical
+                height: Kirigami.Units.gridUnit * controller.messages.length
+
+                model: controller.messages
+
+                delegate: Row {
+                    Text {
+                        text: modelData
+                    }
+                }
             }
         }
     }
