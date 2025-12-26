@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
-import QtQuick.Controls as Controls
+import QtQuick.Controls as QQC2
+import QtQuick.Controls.Material
 import org.kde.kirigami as Kirigami
 import org.jbock.rettung.controller 1.0
 
@@ -24,15 +25,17 @@ Kirigami.ApplicationWindow {
 
         ColumnLayout {
 
+            spacing: 16
+
             anchors {
                 top: parent.top
                 left: parent.left
                 right: parent.right
             }
 
-            TextEdit {
-                Layout.fillWidth: true
+            QQC2.Label {
                 wrapMode: Text.WordWrap
+                Layout.fillWidth: true
                 text: "You can set a new luks2 passphrase here. " + 
                     "If you already had this passphrase, the tool will do nothing and tell you about it."
             }
@@ -40,11 +43,11 @@ Kirigami.ApplicationWindow {
             GridLayout {
                 columns: 2
 
-                TextInput {
+                QQC2.Label {
                     text: "passphrase:"
                 }
 
-                Controls.TextField {
+                QQC2.TextField {
                     id: pwField
                     Layout.fillWidth: true
                     echoMode: TextInput.Password
@@ -54,11 +57,11 @@ Kirigami.ApplicationWindow {
                     }
                 }
 
-                TextInput {
+                QQC2.Label {
                     text: "confirm:"
                 }
 
-                Controls.TextField {
+                QQC2.TextField {
                     id: confirmField
                     Layout.fillWidth: true
                     echoMode: TextInput.Password
@@ -69,7 +72,7 @@ Kirigami.ApplicationWindow {
                 }
             }
 
-            Controls.Button {
+            QQC2.Button {
                 Layout.fillWidth: true
                 text: "OK"
                 onClicked: {
@@ -78,16 +81,24 @@ Kirigami.ApplicationWindow {
                 enabled: controller.state === "unlocked"
             }
 
-            Repeater {
+            ColumnLayout {
+                Layout.topMargin: 8
+                spacing: 16
+                Repeater {
 
-                model: controller.messages
+                    model: controller.messages
 
-                Controls.TextArea {
-                    wrapMode: Text.WordWrap
-                    width: parent.parent.parent.width
-                    readOnly: true
-                    text: modelData
-                    Layout.fillWidth: true
+                    QQC2.TextArea {
+                        wrapMode: Text.WordWrap
+                        width: parent.parent.parent.width
+                        readOnly: true
+                        text: modelData.message
+                        Layout.fillWidth: true
+                        background: Rectangle {
+                            radius: 6
+                            color: modelData.bg
+                        }
+                    }
                 }
             }
         }

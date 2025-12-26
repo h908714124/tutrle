@@ -5,6 +5,7 @@ from PySide6.QtCore import (
     Slot,
     Property,
     QStringListModel,
+    QCoreApplication,
 )
 from PySide6.QtQml import QmlElement
 from PySide6.QtWidgets import QApplication
@@ -14,6 +15,18 @@ import subprocess
 
 QML_IMPORT_NAME = "org.jbock.rettung.controller"
 QML_IMPORT_MAJOR_VERSION = 1
+
+def dark_theme():
+    return QCoreApplication.instance().styleHints().colorScheme() == Qt.ColorScheme.Dark
+
+def color_info():
+    return "#042f2e" if dark_theme() else "#99f6e4"
+
+def color_error():
+    return "#7c2d12" if dark_theme() else "#fca5a5"
+
+def color_success():
+    return "#14532d" if dark_theme() else "#86efac"
 
 @QmlElement
 class RettungController(QObject):
@@ -29,7 +42,9 @@ class RettungController(QObject):
         self._pw = ""
         self._state = "locked"
         self._messages = [
-            "1 Hi there!" * 3
+            {"message": "1 Hi there!" * 12, "bg": color_info()},
+            {"message": "OUCH" * 3, "bg": color_error()},
+            {"message": "yum" * 3, "bg": color_success()},
         ]
 
     def set_password(self, pw):

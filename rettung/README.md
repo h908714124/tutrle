@@ -26,3 +26,7 @@ pipx run --system-site-packages --spec . rettung
 ### Read the code!
 
 * https://codebrowser.dev/qt6/qtdeclarative/src/qmlmodels/qqmldmlistaccessordata_p.h.html
+
+### Color picker!
+
+* https://ui.shadcn.com/color
