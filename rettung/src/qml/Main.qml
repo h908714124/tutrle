@@ -48,6 +48,7 @@ Kirigami.ApplicationWindow {
                     id: pwField
                     Layout.fillWidth: true
                     echoMode: TextInput.Password
+                    enabled: controller.state === "locked" || controller.state === "unlocked"
                     Keys.onReturnPressed: {
                         controller.onSubmit()
                     }
@@ -61,6 +62,7 @@ Kirigami.ApplicationWindow {
                     id: confirmField
                     Layout.fillWidth: true
                     echoMode: TextInput.Password
+                    enabled: controller.state === "locked" || controller.state === "unlocked"
                     Keys.onReturnPressed: {
                         controller.onSubmit()
                     }
@@ -73,7 +75,7 @@ Kirigami.ApplicationWindow {
                 onClicked: {
                     controller.onSubmit()
                 }
-                enabled: controller.state !== "locked"
+                enabled: controller.state === "unlocked"
             }
 
             Repeater {

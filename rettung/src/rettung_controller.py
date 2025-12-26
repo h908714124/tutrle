@@ -1,4 +1,5 @@
 from PySide6.QtCore import (
+    Qt,
     QObject,
     Signal,
     Slot,
@@ -6,6 +7,7 @@ from PySide6.QtCore import (
     QStringListModel,
 )
 from PySide6.QtQml import QmlElement
+from PySide6.QtWidgets import QApplication
 
 import threading
 import subprocess
@@ -33,14 +35,20 @@ class RettungController(QObject):
     def set_password(self, pw):
         subprocess.run(["sleep", "2"],
                 capture_output=True, text=True)
+        QApplication.restoreOverrideCursor()
+        self._state = "unlocked"
         self._messages.insert(0, "OUCH")
         self.signal_messages_changed.emit()
+        self.signal_state_changed.emit()
 
     def get_bab(self):
         return "bab " * 100
 
     @Slot()
     def onSubmit(self):
+        QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
+        self._state = "busy"
+        self.signal_state_changed.emit()
         threading.Thread(target = lambda : self.set_password(self.get_bab())).start()
 
     @Property(str, notify=signal_text_changed)
