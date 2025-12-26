@@ -27,35 +27,20 @@ class RettungController(QObject):
         self._pw = ""
         self._state = "locked"
         self._messages = [
-            "1 Hi there!", "AHAHA",
-            "2 Hi there!", "AHAHA",
-            "3 Hi there!", "AHAHA",
-            "4 Hi there!", "AHAHA",
-            "5 Hi there!", "AHAHA",
-            "6 Hi there!", "AHAHA",
-            "7 Hi there!", "AHAHA",
-            "8 Hi there!", "AHAHA",
-            "9 Hi there!", "AHAHA",
-            "10 Hi there!", "AHAHA",
-            "11 Hi there!", "AHAHA",
-            "12 Hi there!", "AHAHA",
-            "13 Hi there!", "AHAHA",
-            "14 Hi there!", "AHAHA",
-            "15 Hi there!", "AHAHA",
-            "16 Hi there!", "AHAHA",
+            "1 Hi there!" * 3
         ]
 
     def set_password(self, pw):
         subprocess.run(["sleep", "2"],
                 capture_output=True, text=True)
-        self._text = pw
-        self.signal_text_changed.emit()
+        self._messages.insert(0, "OUCH")
+        self.signal_messages_changed.emit()
 
     def get_bab(self):
         return "bab " * 100
 
     @Slot()
-    def onPbOkClicked(self):
+    def onSubmit(self):
         threading.Thread(target = lambda : self.set_password(self.get_bab())).start()
 
     @Property(str, notify=signal_text_changed)

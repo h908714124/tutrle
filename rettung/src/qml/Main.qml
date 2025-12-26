@@ -48,6 +48,9 @@ Kirigami.ApplicationWindow {
                     id: pwField
                     Layout.fillWidth: true
                     echoMode: TextInput.Password
+                    Keys.onReturnPressed: {
+                        controller.onSubmit()
+                    }
                 }
 
                 TextInput {
@@ -58,6 +61,9 @@ Kirigami.ApplicationWindow {
                     id: confirmField
                     Layout.fillWidth: true
                     echoMode: TextInput.Password
+                    Keys.onReturnPressed: {
+                        controller.onSubmit()
+                    }
                 }
             }
 
@@ -65,30 +71,21 @@ Kirigami.ApplicationWindow {
                 Layout.fillWidth: true
                 text: "OK"
                 onClicked: {
-                    controller.onPbOkClicked()
+                    controller.onSubmit()
                 }
                 enabled: controller.state !== "locked"
             }
 
-            Controls.TextArea {
-                wrapMode: Text.WordWrap
-                text: controller.messageText
-                readOnly: true
-                Layout.fillWidth: true
-                Layout.minimumHeight: Kirigami.Units.gridUnit * 8
-            }
-
-            ListView {
-
-                orientation: ListView.Vertical
-                height: Kirigami.Units.gridUnit * controller.messages.length
+            Repeater {
 
                 model: controller.messages
 
-                delegate: Row {
-                    Text {
-                        text: modelData
-                    }
+                Controls.TextArea {
+                    wrapMode: Text.WordWrap
+                    width: parent.parent.parent.width
+                    readOnly: true
+                    text: modelData
+                    Layout.fillWidth: true
                 }
             }
         }
