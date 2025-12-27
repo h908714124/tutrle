@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as QQC2
-import QtQuick.Controls.Material
+import QtQuick.Controls.Universal
 import org.kde.kirigami as Kirigami
-import org.jbock.rettung.controller 1.0
+import org.jbock.rettung.controller
 
 Kirigami.ApplicationWindow {
     id: root
@@ -104,12 +104,12 @@ Kirigami.ApplicationWindow {
                         topPadding: 8
                         bottomPadding: 8
                         background: Rectangle {
-                            border.width: 1
-                            border.color: Material.color(Material.Grey, borderShade())
+                            border.width: 2
+                            border.color: Universal.chromeDisabledLowColor
                             radius: 6
                             color: {
                                 if (modelData.type === "info") {
-                                    return Material.color(Material.Blue, bgShade())
+                                    return Material.backgroundColor
                                 } else if (modelData.type === "error") {
                                     return Material.color(Material.Red, bgShade())
                                 } else if (modelData.type === "success") {

@@ -23,11 +23,18 @@ pipx run --system-site-packages --spec . rettung
 
 * https://stackoverflow.com/questions/71719614/address-text-element-on-qml/71720831
 
-### Read the code!
+### Read source code!
 
-* https://codebrowser.dev/qt6/qtdeclarative/src/qmlmodels/qqmldmlistaccessordata_p.h.html
+* https://code.qt.io/qt/qtdeclarative.git
+* https://code.qt.io/qt/qtbase.git
+* https://codebrowser.dev/qt6/qtdeclarative/src/quickcontrols/material/qquickmaterialstyle.cpp.html
 
 ### Color picker!
 
-* https://ui.shadcn.com/color
 * https://doc.qt.io/qt-6/qtquickcontrols-material.html
+
+### Example: Finding source of qml TextField
+
+```
+ug -Fnr 'qmltype TextField' ../qtdeclarative/src/
+```
