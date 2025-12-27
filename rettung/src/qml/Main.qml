@@ -16,10 +16,10 @@ Kirigami.ApplicationWindow {
     property bool darkMode: Application.styleHints.colorScheme === Qt.ColorScheme.Dark
 
     function borderShade() {
-        return Application.styleHints.colorScheme === Qt.ColorScheme.Dark ? Material.Shade600 : Material.Shade400
+        return Universal.chromeDisabledLowColor
     }
     function bgShade() {
-        return Application.styleHints.colorScheme === Qt.ColorScheme.Dark ? Material.Shade800 : Material.Shade100
+        return Universal.baseLowColor
     }
 
     pageStack.initialPage: Kirigami.ScrollablePage {
@@ -109,11 +109,13 @@ Kirigami.ApplicationWindow {
                             radius: 6
                             color: {
                                 if (modelData.type === "info") {
-                                    return Material.backgroundColor
+                                    return Universal.baseLowColor
                                 } else if (modelData.type === "error") {
-                                    return Material.color(Material.Red, bgShade())
+                                    return Universal.baseLowColor
+                                    //return Material.color(Material.Red, bgShade())
                                 } else if (modelData.type === "success") {
-                                    return Material.color(Material.Green, bgShade())
+                                    return Universal.baseLowColor
+                                    //return Material.color(Material.Green, bgShade())
                                 }
                             }
                         }
