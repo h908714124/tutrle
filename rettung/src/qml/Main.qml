@@ -98,26 +98,24 @@ Kirigami.ApplicationWindow {
                         bottomPadding: 8
                         color: {
                             if (modelData.type === "info") {
-                                return palette.text
+                                palette.text
                             } else if (modelData.type === "error") {
-                                return palette.brightText
+                                palette.brightText
                             } else if (modelData.type === "success") {
-                                return palette.brightText
+                                palette.brightText
                             }
                         }
                         background: Rectangle {
-                            border.width: 1
-                            border.color: {
-                                palette.mid
-                            }
+                            border.width: modelData.type === "info" ? 1 : 0
+                            border.color: palette.mid
                             radius: 6
                             color: {
                                 if (modelData.type === "info") {
-                                    return palette.midlight
+                                    palette.midlight
                                 } else if (modelData.type === "error") {
-                                    return Material.accentColor
+                                    Material.accentColor
                                 } else if (modelData.type === "success") {
-                                    return palette.highlight
+                                    palette.highlight
                                 }
                             }
                         }

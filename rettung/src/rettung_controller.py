@@ -65,7 +65,16 @@ class RettungController(QObject):
         self.signal_messages_changed.emit()
 
     def clear_messages(self):
+        if len(self._messages) == 0:
+            return
         self._messages.clear()
+        self.signal_messages_changed.emit()
+
+    def set_message(self, message):
+        if len(self._messages) == 1 and self._messages[0] == message:
+            return
+        self._messages.clear()
+        self._messages.append(message)
         self.signal_messages_changed.emit()
 
     def change_state(self, state):
@@ -75,11 +84,6 @@ class RettungController(QObject):
         self.signal_state_changed.emit()
 
     def set_password(self):
-        error = check_pw(self._pw)
-        if error:
-            self.change_state("unlocked")
-            self.insert_message(create_error(error))
-            return
         subprocess.run(["sleep", "2"])
         QApplication.restoreOverrideCursor()
         self.change_state("final")
@@ -91,13 +95,16 @@ class RettungController(QObject):
             QCoreApplication.instance().quit()
             return
         if len(self._pw) < 8 or self._pw != self._confirm:
-            self.change_state("locked")
             self.insert_message(create_error("passphrase mismatch"))
+            return
+        error = check_pw(self._pw)
+        if error:
+            self.set_message(create_error(error))
             return
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         self.change_state("busy")
         self.clear_messages()
-        threading.Thread(target = lambda : self.set_password()).start()
+        threading.Thread(target = self.set_password).start()
 
     @Property(str, notify=signal_text_changed)
     def messageText(self):
@@ -124,13 +131,26 @@ class RettungController(QObject):
     def confirmField(self):
         return self._confirm
 
+    def is_match(self):
+        return len(self._pw) >= 8 and self._pw == self._confirm
+
     @confirmField.setter
     def confirmField(self, val):
         self._confirm = val
         self.update_lockstate()
 
     def update_lockstate(self):
-        if len(self._pw) >= 8 and self._pw == self._confirm:
-            self.change_state("unlocked")
+        if self.is_match():
+            error = check_pw(self._pw)
+            if error:
+                self.set_message(create_error(error))
+                return
+            else:
+                self.clear_messages()
+                self.change_state("unlocked")
+        elif len(self._pw) == 0 and len(self._confirm) == 0:
+            self.clear_messages()
+            self.change_state("locked")
         else:
+            self.set_message(create_info("no match"))
             self.change_state("locked")
