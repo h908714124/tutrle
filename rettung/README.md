@@ -30,3 +30,4 @@ pipx run --system-site-packages --spec . rettung
 ### Color picker!
 
 * https://ui.shadcn.com/color
+* https://doc.qt.io/qt-6/qtquickcontrols-material.html

@@ -28,6 +28,18 @@ def color_error():
 def color_success():
     return "#14532d" if dark_theme() else "#86efac"
 
+def color_border():
+    return "#9e9e9e" if dark_theme() else "#9e9e9e"
+
+def create_info(message):
+    return {"message": message, "bg": color_info(), "border": color_border(), "type": "info"}
+
+def create_error(message):
+    return {"message": message, "bg": color_error(), "border": color_border(), "type": "error"}
+
+def create_success(message):
+    return {"message": message, "bg": color_success(), "border": color_border(), "type": "success"}
+
 @QmlElement
 class RettungController(QObject):
 
@@ -42,17 +54,17 @@ class RettungController(QObject):
         self._pw = ""
         self._state = "locked"
         self._messages = [
-            {"message": "1 Hi there!" * 12, "bg": color_info()},
-            {"message": "OUCH" * 3, "bg": color_error()},
-            {"message": "yum" * 3, "bg": color_success()},
+            create_info("1 Hi there!" * 12),
+            create_error("OUCH"),
+            create_success("yum " * 3),
         ]
 
     def set_password(self, pw):
         subprocess.run(["sleep", "2"],
                 capture_output=True, text=True)
         QApplication.restoreOverrideCursor()
-        self._state = "unlocked"
-        self._messages.insert(0, "OUCH")
+        self._state = "final"
+        self._messages.insert(0, create_success("OK " * 3))
         self.signal_messages_changed.emit()
         self.signal_state_changed.emit()
 
@@ -61,8 +73,13 @@ class RettungController(QObject):
 
     @Slot()
     def onSubmit(self):
+        if self._state == "final":
+            QCoreApplication.instance().quit()
+            return
         QApplication.setOverrideCursor(Qt.CursorShape.WaitCursor)
         self._state = "busy"
+        self._messages.clear()
+        self.signal_messages_changed.emit()
         self.signal_state_changed.emit()
         threading.Thread(target = lambda : self.set_password(self.get_bab())).start()
 

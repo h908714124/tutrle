@@ -13,6 +13,15 @@ Kirigami.ApplicationWindow {
     width: Kirigami.Units.gridUnit * 20
     height: Kirigami.Units.gridUnit * 30
 
+    property bool darkMode: Application.styleHints.colorScheme === Qt.ColorScheme.Dark
+
+    function borderShade() {
+        return Application.styleHints.colorScheme === Qt.ColorScheme.Dark ? Material.Shade600 : Material.Shade400
+    }
+    function bgShade() {
+        return Application.styleHints.colorScheme === Qt.ColorScheme.Dark ? Material.Shade800 : Material.Shade100
+    }
+
     pageStack.initialPage: Kirigami.ScrollablePage {
         id: mainPage
         title: "Tool to add a luks2 passphrase"
@@ -74,16 +83,14 @@ Kirigami.ApplicationWindow {
 
             QQC2.Button {
                 Layout.fillWidth: true
-                text: "OK"
+                text: controller.state === "final" ? "Close" : "OK"
                 onClicked: {
                     controller.onSubmit()
                 }
-                enabled: controller.state === "unlocked"
+                enabled: controller.state === "unlocked" || controller.state === "final"
             }
 
             ColumnLayout {
-                Layout.topMargin: 8
-                spacing: 16
                 Repeater {
 
                     model: controller.messages
@@ -94,9 +101,21 @@ Kirigami.ApplicationWindow {
                         readOnly: true
                         text: modelData.message
                         Layout.fillWidth: true
+                        topPadding: 8
+                        bottomPadding: 8
                         background: Rectangle {
+                            border.width: 1
+                            border.color: Material.color(Material.Grey, borderShade())
                             radius: 6
-                            color: modelData.bg
+                            color: {
+                                if (modelData.type === "info") {
+                                    return Material.color(Material.Blue, bgShade())
+                                } else if (modelData.type === "error") {
+                                    return Material.color(Material.Red, bgShade())
+                                } else if (modelData.type === "success") {
+                                    return Material.color(Material.Green, bgShade())
+                                }
+                            }
                         }
                     }
                 }
