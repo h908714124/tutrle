@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls as QQC2
-import QtQuick.Controls.Universal
+import QtQuick.Controls.Basic
+import QtQuick.Controls.Material
 import org.kde.kirigami as Kirigami
 import org.jbock.rettung.controller
 
@@ -12,15 +13,6 @@ Kirigami.ApplicationWindow {
 
     width: Kirigami.Units.gridUnit * 20
     height: Kirigami.Units.gridUnit * 30
-
-    property bool darkMode: Application.styleHints.colorScheme === Qt.ColorScheme.Dark
-
-    function borderShade() {
-        return Universal.chromeDisabledLowColor
-    }
-    function bgShade() {
-        return Universal.baseLowColor
-    }
 
     pageStack.initialPage: Kirigami.ScrollablePage {
         id: mainPage
@@ -100,22 +92,32 @@ Kirigami.ApplicationWindow {
                         width: parent.parent.parent.width
                         readOnly: true
                         text: modelData.message
+                        font.bold: modelData.type !== "info"
                         Layout.fillWidth: true
                         topPadding: 8
                         bottomPadding: 8
+                        color: {
+                            if (modelData.type === "info") {
+                                return palette.text
+                            } else if (modelData.type === "error") {
+                                return palette.brightText
+                            } else if (modelData.type === "success") {
+                                return palette.brightText
+                            }
+                        }
                         background: Rectangle {
-                            border.width: 2
-                            border.color: Universal.chromeDisabledLowColor
+                            border.width: 1
+                            border.color: {
+                                palette.mid
+                            }
                             radius: 6
                             color: {
                                 if (modelData.type === "info") {
-                                    return Universal.baseLowColor
+                                    return palette.midlight
                                 } else if (modelData.type === "error") {
-                                    return Universal.baseLowColor
-                                    //return Material.color(Material.Red, bgShade())
+                                    return Material.accentColor
                                 } else if (modelData.type === "success") {
-                                    return Universal.baseLowColor
-                                    //return Material.color(Material.Green, bgShade())
+                                    return palette.highlight
                                 }
                             }
                         }

@@ -19,26 +19,14 @@ QML_IMPORT_MAJOR_VERSION = 1
 def dark_theme():
     return QCoreApplication.instance().styleHints().colorScheme() == Qt.ColorScheme.Dark
 
-def color_info():
-    return "#042f2e" if dark_theme() else "#99f6e4"
-
-def color_error():
-    return "#7c2d12" if dark_theme() else "#fca5a5"
-
-def color_success():
-    return "#14532d" if dark_theme() else "#86efac"
-
-def color_border():
-    return "#9e9e9e" if dark_theme() else "#9e9e9e"
-
 def create_info(message):
-    return {"message": message, "bg": color_info(), "border": color_border(), "type": "info"}
+    return {"message": message, "type": "info"}
 
 def create_error(message):
-    return {"message": message, "bg": color_error(), "border": color_border(), "type": "error"}
+    return {"message": message, "type": "error"}
 
 def create_success(message):
-    return {"message": message, "bg": color_success(), "border": color_border(), "type": "success"}
+    return {"message": message, "type": "success"}
 
 @QmlElement
 class RettungController(QObject):
@@ -68,9 +56,6 @@ class RettungController(QObject):
         self.signal_messages_changed.emit()
         self.signal_state_changed.emit()
 
-    def get_bab(self):
-        return "bab " * 100
-
     @Slot()
     def onSubmit(self):
         if self._state == "final":
@@ -81,7 +66,7 @@ class RettungController(QObject):
         self._messages.clear()
         self.signal_messages_changed.emit()
         self.signal_state_changed.emit()
-        threading.Thread(target = lambda : self.set_password(self.get_bab())).start()
+        threading.Thread(target = lambda : self.set_password("pw")).start()
 
     @Property(str, notify=signal_text_changed)
     def messageText(self):
