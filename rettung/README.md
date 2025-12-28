@@ -18,6 +18,7 @@ pipx run --system-site-packages --spec . rettung
 * https://doc.qt.io/qt-6/qtqml-javascript-expressions.html
 * https://doc.qt.io/qtforpython-6/examples/example_quick_window.html
 * https://doc.qt.io/qt-6/qtqml-javascript-topic.html
+* https://docs.novaflowos.com/start/kde-developer-platform/readme/getting-started/kirigami/index-5
 
 ### Read stackoverflow!
 
