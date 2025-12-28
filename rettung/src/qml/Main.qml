@@ -16,7 +16,7 @@ Kirigami.ApplicationWindow {
 
     pageStack.initialPage: Kirigami.ScrollablePage {
         id: mainPage
-        title: "Tool to add a luks2 passphrase"
+        title: "Rettung"
 
         RettungController {
             id: controller
